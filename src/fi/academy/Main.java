@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
@@ -48,6 +49,9 @@ public class Main {
         pw.println(completionDate);
 
         System.out.println("  ");
+        System.out.println("nz");
+
+
 
         pw.close();
         fw.close();
