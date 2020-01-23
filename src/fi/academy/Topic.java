@@ -11,14 +11,27 @@ public class Topic {
     private LocalDate creationDate;
     private LocalDate completionDate;
 
-    public Topic() {
-
+    public Topic(int id, String title, String description, String additionalSource, boolean complete, LocalDate creationDate, LocalDate completionDate) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.additionalSource = additionalSource;
         this.complete = complete;
         this.creationDate = creationDate;
+        this.completionDate = completionDate;
+    }
+
+    @Override
+    public String toString() {
+        return "fi.academy.Topic{" +
+                ", id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", additionalSource='" + additionalSource + '\'' +
+                ", complete=" + complete +
+                ", creationDate=" + creationDate +
+                ", completionDate=" + completionDate +
+                '}';
     }
 
     public int getId() {

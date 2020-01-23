@@ -1,13 +1,10 @@
 package fi.academy;
 
-import fi.academy.Topic;
-
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
 
@@ -16,50 +13,88 @@ public class Main {
         FileWriter fw = new FileWriter("Oppimispäiväkirja.txt", true);
         PrintWriter pw = new PrintWriter(fw);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        List lista = new ArrayList();
+        ArrayList<Topic> lista= new ArrayList<Topic>();
 
-        System.out.println("Syötä ID:");
-        String id = lukija.readLine();
-        pw.println(id);
+        while (true) {
 
-        System.out.println("Syötä nimi:");
-        String title = lukija.readLine();
-        pw.println(title);
+            System.out.println("Kirjoita aihe, lopeta lopettaa");
+            String title = lukija.readLine();
+            pw.println("Aihe: " + title);
 
-        System.out.println("Syötä kuvaus:");
-        String description = lukija.readLine();
-        pw.println(description);
+            if (title.equals("lopeta")) {
+                break;
+            }
+                int id = ID(lukija, pw);
 
-        System.out.println("Syötä lähde:");
-        String additionalSource = lukija.readLine();
-        pw.println(additionalSource);
+                String description = description(lukija, pw, "Syötä kuvaus:");
 
-        System.out.println("Onko aiheen opiskelu kesken? true tai false.");
-        boolean complete = Boolean.valueOf(lukija.readLine());
-        pw.println(complete);
+                String additionalSource = additionalSource(lukija, pw);
 
-        System.out.println("Syötä aloituspäivämäärä muodossa dd/mm/yyyy:");
-        String date = lukija.readLine();
-        LocalDate creationDate = LocalDate.parse(date, formatter);
-        pw.println(creationDate);
+                boolean complete = complete(lukija, pw);
 
+                LocalDate creationDate = localDate(lukija, pw, formatter);
+
+                completionDate(lukija, pw, formatter);
+
+                System.out.println("  ");
+
+                pw.close();
+                fw.close();
+
+                Topic t = new Topic(id, title, description, additionalSource, complete, creationDate, null);
+                lista.add(t);
+
+            }
+
+        //tulosta
+        
+        }
+
+    private static void completionDate(BufferedReader lukija, PrintWriter pw, DateTimeFormatter formatter) throws IOException {
         System.out.println("Syötä valmistumispäivämäärä muodossa dd/mm/yyyy:");
         String date2 = lukija.readLine();
         LocalDate completionDate = LocalDate.parse(date2, formatter);
         pw.println(completionDate);
-
-        System.out.println("  ");
-        System.out.println("nz");
-
-
-
-        pw.close();
-        fw.close();
-
-        //while //käyttäjän syöttämät tiedot tallettuu
-        //Topic t = new Topic(id, title, description, additionalSource, complete, creationDate, completionDate);
-        //lista.add(t);
-        }
-
     }
 
+    private static LocalDate localDate(BufferedReader lukija, PrintWriter pw, DateTimeFormatter formatter) throws IOException {
+        System.out.println("Syötä aloituspäivämäärä muodossa dd/mm/yyyy:");
+        String date = lukija.readLine();
+        LocalDate creationDate = LocalDate.parse(date, formatter);
+        pw.println(creationDate);
+        return creationDate;
+    }
+
+    private static boolean complete(BufferedReader lukija, PrintWriter pw) throws IOException {
+        System.out.println("Onko aiheen opiskelu kesken? true tai false.");
+        boolean complete = Boolean.valueOf(lukija.readLine());
+        if (complete == false) {
+            pw.println("Onko asia kesken: tehty");
+        } else {
+            pw.println("Onko asia kesken: ei");
+        }
+        return complete;
+    }
+
+    private static String additionalSource(BufferedReader lukija, PrintWriter pw) throws IOException {
+        System.out.println("Syötä lähde:");
+        String additionalSource = lukija.readLine();
+        pw.println(additionalSource);
+        return additionalSource;
+    }
+
+    private static String description(BufferedReader lukija, PrintWriter pw, String s) throws IOException {
+        System.out.println(s);
+        String description = lukija.readLine();
+        pw.println(description);
+        return description;
+    }
+
+
+    private static int ID(BufferedReader lukija, PrintWriter pw) throws IOException {
+        System.out.println("Syötä ID:");
+        int id = Integer.valueOf(lukija.readLine());
+        pw.println("ID: " + id);
+        return id;
+    }
+}
